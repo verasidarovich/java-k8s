@@ -1,0 +1,27 @@
+version: '3.8'
+
+networks:
+  knote:
+    name: knote
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - knote
+
+  knote-java:
+    image: knote-java
+    container_name: knote-java
+    ports:
+      - "8080:8080"
+    networks:
+      - knote
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/local
+    depends_on:
+      - mongo
+  
